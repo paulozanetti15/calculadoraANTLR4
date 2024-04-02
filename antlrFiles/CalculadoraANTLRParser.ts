@@ -28,33 +28,34 @@ import { CalculadoraANTLRVisitor } from "./CalculadoraANTLRVisitor";
 
 
 export class CalculadoraANTLRParser extends Parser {
-	public static readonly ABRE = 1;
-	public static readonly FECHA = 2;
-	public static readonly DIVIDIR = 3;
-	public static readonly POTENCIA = 4;
-	public static readonly SOMAR = 5;
-	public static readonly MULTIPLICAR = 6;
-	public static readonly SUBTRAIR = 7;
-	public static readonly RES = 8;
-	public static readonly MEMORIA = 9;
-	public static readonly WS = 10;
-	public static readonly NUMERO = 11;
-	public static readonly RULE_arquivo = 0;
-	public static readonly RULE_expressoes = 1;
-	public static readonly RULE_expressao = 2;
-	public static readonly RULE_expressao1 = 3;
-	public static readonly RULE_operacao = 4;
+	public static readonly DIV = 1;
+	public static readonly MULT = 2;
+	public static readonly MEM = 3;
+	public static readonly WS = 4;
+	public static readonly NUMBER = 5;
+	public static readonly MINUS = 6;
+	public static readonly LEFTPAREN = 7;
+	public static readonly RIGHTPAREN = 8;
+	public static readonly POW = 9;
+	public static readonly PLUS = 10;
+	public static readonly RES = 11;
+	public static readonly RULE_file = 0;
+	public static readonly RULE_equations = 1;
+	public static readonly RULE_equation = 2;
+	public static readonly RULE_expression = 3;
+	public static readonly RULE_operation = 4;
 	// tslint:disable:no-trailing-whitespace
 	public static readonly ruleNames: string[] = [
-		"arquivo", "expressoes", "expressao", "expressao1", "operacao",
+		"file", "equations", "equation", "expression", "operation",
 	];
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
-		undefined, "'('", "')'", "'/'", "'^'", "'+'", "'*'", "'-'", "'RES'", "'MEM'",
+		undefined, "'/'", "'*'", "'MEM'", undefined, undefined, "'-'", "'('", 
+		"')'", "'^'", "'+'", "'RES'",
 	];
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
-		undefined, "ABRE", "FECHA", "DIVIDIR", "POTENCIA", "SOMAR", "MULTIPLICAR", 
-		"SUBTRAIR", "RES", "MEMORIA", "WS", "NUMERO",
+		undefined, "DIV", "MULT", "MEM", "WS", "NUMBER", "MINUS", "LEFTPAREN", 
+		"RIGHTPAREN", "POW", "PLUS", "RES",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(CalculadoraANTLRParser._LITERAL_NAMES, CalculadoraANTLRParser._SYMBOLIC_NAMES, []);
 
@@ -83,14 +84,14 @@ export class CalculadoraANTLRParser extends Parser {
 		this._interp = new ParserATNSimulator(CalculadoraANTLRParser._ATN, this);
 	}
 	// @RuleVersion(0)
-	public arquivo(): ArquivoContext {
-		let _localctx: ArquivoContext = new ArquivoContext(this._ctx, this.state);
-		this.enterRule(_localctx, 0, CalculadoraANTLRParser.RULE_arquivo);
+	public file(): FileContext {
+		let _localctx: FileContext = new FileContext(this._ctx, this.state);
+		this.enterRule(_localctx, 0, CalculadoraANTLRParser.RULE_file);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
 			this.state = 10;
-			this.expressoes();
+			this.equations();
 			this.state = 11;
 			this.match(CalculadoraANTLRParser.EOF);
 			}
@@ -110,9 +111,9 @@ export class CalculadoraANTLRParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public expressoes(): ExpressoesContext {
-		let _localctx: ExpressoesContext = new ExpressoesContext(this._ctx, this.state);
-		this.enterRule(_localctx, 2, CalculadoraANTLRParser.RULE_expressoes);
+	public equations(): EquationsContext {
+		let _localctx: EquationsContext = new EquationsContext(this._ctx, this.state);
+		this.enterRule(_localctx, 2, CalculadoraANTLRParser.RULE_equations);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
@@ -124,13 +125,42 @@ export class CalculadoraANTLRParser extends Parser {
 				{
 				{
 				this.state = 13;
-				this.expressao(0);
+				this.equation();
 				}
 				}
 				this.state = 16;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << CalculadoraANTLRParser.ABRE) | (1 << CalculadoraANTLRParser.MEMORIA) | (1 << CalculadoraANTLRParser.NUMERO))) !== 0));
+			} while (_la === CalculadoraANTLRParser.LEFTPAREN);
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				_localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return _localctx;
+	}
+	// @RuleVersion(0)
+	public equation(): EquationContext {
+		let _localctx: EquationContext = new EquationContext(this._ctx, this.state);
+		this.enterRule(_localctx, 4, CalculadoraANTLRParser.RULE_equation);
+		try {
+			this.enterOuterAlt(_localctx, 1);
+			{
+			this.state = 18;
+			this.match(CalculadoraANTLRParser.LEFTPAREN);
+			this.state = 19;
+			this.expression(0);
+			this.state = 20;
+			this.match(CalculadoraANTLRParser.RIGHTPAREN);
 			}
 		}
 		catch (re) {
@@ -148,59 +178,59 @@ export class CalculadoraANTLRParser extends Parser {
 		return _localctx;
 	}
 
-	public expressao(): ExpressaoContext;
-	public expressao(_p: number): ExpressaoContext;
+	public expression(): ExpressionContext;
+	public expression(_p: number): ExpressionContext;
 	// @RuleVersion(0)
-	public expressao(_p?: number): ExpressaoContext {
+	public expression(_p?: number): ExpressionContext {
 		if (_p === undefined) {
 			_p = 0;
 		}
 
 		let _parentctx: ParserRuleContext = this._ctx;
 		let _parentState: number = this.state;
-		let _localctx: ExpressaoContext = new ExpressaoContext(this._ctx, _parentState);
-		let _prevctx: ExpressaoContext = _localctx;
-		let _startState: number = 4;
-		this.enterRecursionRule(_localctx, 4, CalculadoraANTLRParser.RULE_expressao, _p);
+		let _localctx: ExpressionContext = new ExpressionContext(this._ctx, _parentState);
+		let _prevctx: ExpressionContext = _localctx;
+		let _startState: number = 6;
+		this.enterRecursionRule(_localctx, 6, CalculadoraANTLRParser.RULE_expression, _p);
 		try {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
 			{
-			this.state = 24;
+			this.state = 28;
 			this._errHandler.sync(this);
 			switch ( this.interpreter.adaptivePredict(this._input, 1, this._ctx) ) {
 			case 1:
 				{
-				this.state = 19;
-				this.expressao1();
+				this.state = 23;
+				this.equation();
 				}
 				break;
 
 			case 2:
 				{
-				this.state = 20;
-				this.match(CalculadoraANTLRParser.NUMERO);
-				this.state = 21;
-				this.match(CalculadoraANTLRParser.RES);
+				this.state = 24;
+				this.match(CalculadoraANTLRParser.MEM);
 				}
 				break;
 
 			case 3:
 				{
-				this.state = 22;
-				this.match(CalculadoraANTLRParser.NUMERO);
+				this.state = 25;
+				this.match(CalculadoraANTLRParser.NUMBER);
+				this.state = 26;
+				this.match(CalculadoraANTLRParser.RES);
 				}
 				break;
 
 			case 4:
 				{
-				this.state = 23;
-				this.match(CalculadoraANTLRParser.MEMORIA);
+				this.state = 27;
+				this.match(CalculadoraANTLRParser.NUMBER);
 				}
 				break;
 			}
 			this._ctx._stop = this._input.tryLT(-1);
-			this.state = 34;
+			this.state = 38;
 			this._errHandler.sync(this);
 			_alt = this.interpreter.adaptivePredict(this._input, 3, this._ctx);
 			while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
@@ -210,40 +240,40 @@ export class CalculadoraANTLRParser extends Parser {
 					}
 					_prevctx = _localctx;
 					{
-					this.state = 32;
+					this.state = 36;
 					this._errHandler.sync(this);
 					switch ( this.interpreter.adaptivePredict(this._input, 2, this._ctx) ) {
 					case 1:
 						{
-						_localctx = new ExpressaoContext(_parentctx, _parentState);
-						this.pushNewRecursionContext(_localctx, _startState, CalculadoraANTLRParser.RULE_expressao);
-						this.state = 26;
+						_localctx = new ExpressionContext(_parentctx, _parentState);
+						this.pushNewRecursionContext(_localctx, _startState, CalculadoraANTLRParser.RULE_expression);
+						this.state = 30;
 						if (!(this.precpred(this._ctx, 5))) {
 							throw this.createFailedPredicateException("this.precpred(this._ctx, 5)");
 						}
-						this.state = 27;
-						this.expressao(0);
-						this.state = 28;
-						this.operacao();
+						this.state = 31;
+						this.expression(0);
+						this.state = 32;
+						this.operation();
 						}
 						break;
 
 					case 2:
 						{
-						_localctx = new ExpressaoContext(_parentctx, _parentState);
-						this.pushNewRecursionContext(_localctx, _startState, CalculadoraANTLRParser.RULE_expressao);
-						this.state = 30;
+						_localctx = new ExpressionContext(_parentctx, _parentState);
+						this.pushNewRecursionContext(_localctx, _startState, CalculadoraANTLRParser.RULE_expression);
+						this.state = 34;
 						if (!(this.precpred(this._ctx, 4))) {
 							throw this.createFailedPredicateException("this.precpred(this._ctx, 4)");
 						}
-						this.state = 31;
-						this.match(CalculadoraANTLRParser.MEMORIA);
+						this.state = 35;
+						this.match(CalculadoraANTLRParser.MEM);
 						}
 						break;
 					}
 					}
 				}
-				this.state = 36;
+				this.state = 40;
 				this._errHandler.sync(this);
 				_alt = this.interpreter.adaptivePredict(this._input, 3, this._ctx);
 			}
@@ -264,45 +294,16 @@ export class CalculadoraANTLRParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public expressao1(): Expressao1Context {
-		let _localctx: Expressao1Context = new Expressao1Context(this._ctx, this.state);
-		this.enterRule(_localctx, 6, CalculadoraANTLRParser.RULE_expressao1);
-		try {
-			this.enterOuterAlt(_localctx, 1);
-			{
-			this.state = 37;
-			this.match(CalculadoraANTLRParser.ABRE);
-			this.state = 38;
-			this.expressao(0);
-			this.state = 39;
-			this.match(CalculadoraANTLRParser.FECHA);
-			}
-		}
-		catch (re) {
-			if (re instanceof RecognitionException) {
-				_localctx.exception = re;
-				this._errHandler.reportError(this, re);
-				this._errHandler.recover(this, re);
-			} else {
-				throw re;
-			}
-		}
-		finally {
-			this.exitRule();
-		}
-		return _localctx;
-	}
-	// @RuleVersion(0)
-	public operacao(): OperacaoContext {
-		let _localctx: OperacaoContext = new OperacaoContext(this._ctx, this.state);
-		this.enterRule(_localctx, 8, CalculadoraANTLRParser.RULE_operacao);
+	public operation(): OperationContext {
+		let _localctx: OperationContext = new OperationContext(this._ctx, this.state);
+		this.enterRule(_localctx, 8, CalculadoraANTLRParser.RULE_operation);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
 			this.state = 41;
 			_la = this._input.LA(1);
-			if (!((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << CalculadoraANTLRParser.DIVIDIR) | (1 << CalculadoraANTLRParser.POTENCIA) | (1 << CalculadoraANTLRParser.SOMAR) | (1 << CalculadoraANTLRParser.MULTIPLICAR) | (1 << CalculadoraANTLRParser.SUBTRAIR))) !== 0))) {
+			if (!((((_la) & ~0x1F) === 0 && ((1 << _la) & ((1 << CalculadoraANTLRParser.DIV) | (1 << CalculadoraANTLRParser.MULT) | (1 << CalculadoraANTLRParser.MINUS) | (1 << CalculadoraANTLRParser.POW) | (1 << CalculadoraANTLRParser.PLUS))) !== 0))) {
 			this._errHandler.recoverInline(this);
 			} else {
 				if (this._input.LA(1) === Token.EOF) {
@@ -331,12 +332,12 @@ export class CalculadoraANTLRParser extends Parser {
 
 	public sempred(_localctx: RuleContext, ruleIndex: number, predIndex: number): boolean {
 		switch (ruleIndex) {
-		case 2:
-			return this.expressao_sempred(_localctx as ExpressaoContext, predIndex);
+		case 3:
+			return this.expression_sempred(_localctx as ExpressionContext, predIndex);
 		}
 		return true;
 	}
-	private expressao_sempred(_localctx: ExpressaoContext, predIndex: number): boolean {
+	private expression_sempred(_localctx: ExpressionContext, predIndex: number): boolean {
 		switch (predIndex) {
 		case 0:
 			return this.precpred(this._ctx, 5);
@@ -351,24 +352,24 @@ export class CalculadoraANTLRParser extends Parser {
 		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\r.\x04\x02\t" +
 		"\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x03\x02\x03" +
 		"\x02\x03\x02\x03\x03\x06\x03\x11\n\x03\r\x03\x0E\x03\x12\x03\x04\x03\x04" +
-		"\x03\x04\x03\x04\x03\x04\x03\x04\x05\x04\x1B\n\x04\x03\x04\x03\x04\x03" +
-		"\x04\x03\x04\x03\x04\x03\x04\x07\x04#\n\x04\f\x04\x0E\x04&\v\x04\x03\x05" +
-		"\x03\x05\x03\x05\x03\x05\x03\x06\x03\x06\x03\x06\x02\x02\x03\x06\x07\x02" +
-		"\x02\x04\x02\x06\x02\b\x02\n\x02\x02\x03\x03\x02\x05\t\x02.\x02\f\x03" +
-		"\x02\x02\x02\x04\x10\x03\x02\x02\x02\x06\x1A\x03\x02\x02\x02\b\'\x03\x02" +
-		"\x02\x02\n+\x03\x02\x02\x02\f\r\x05\x04\x03\x02\r\x0E\x07\x02\x02\x03" +
-		"\x0E\x03\x03\x02\x02\x02\x0F\x11\x05\x06\x04\x02\x10\x0F\x03\x02\x02\x02" +
-		"\x11\x12\x03\x02\x02\x02\x12\x10\x03\x02\x02\x02\x12\x13\x03\x02\x02\x02" +
-		"\x13\x05\x03\x02\x02\x02\x14\x15\b\x04\x01\x02\x15\x1B\x05\b\x05\x02\x16" +
-		"\x17\x07\r\x02\x02\x17\x1B\x07\n\x02\x02\x18\x1B\x07\r\x02\x02\x19\x1B" +
-		"\x07\v\x02\x02\x1A\x14\x03\x02\x02\x02\x1A\x16\x03\x02\x02\x02\x1A\x18" +
-		"\x03\x02\x02\x02\x1A\x19\x03\x02\x02\x02\x1B$\x03\x02\x02\x02\x1C\x1D" +
-		"\f\x07\x02\x02\x1D\x1E\x05\x06\x04\x02\x1E\x1F\x05\n\x06\x02\x1F#\x03" +
-		"\x02\x02\x02 !\f\x06\x02\x02!#\x07\v\x02\x02\"\x1C\x03\x02\x02\x02\" " +
-		"\x03\x02\x02\x02#&\x03\x02\x02\x02$\"\x03\x02\x02\x02$%\x03\x02\x02\x02" +
-		"%\x07\x03\x02\x02\x02&$\x03\x02\x02\x02\'(\x07\x03\x02\x02()\x05\x06\x04" +
-		"\x02)*\x07\x04\x02\x02*\t\x03\x02\x02\x02+,\t\x02\x02\x02,\v\x03\x02\x02" +
-		"\x02\x06\x12\x1A\"$";
+		"\x03\x04\x03\x04\x03\x05\x03\x05\x03\x05\x03\x05\x03\x05\x03\x05\x05\x05" +
+		"\x1F\n\x05\x03\x05\x03\x05\x03\x05\x03\x05\x03\x05\x03\x05\x07\x05\'\n" +
+		"\x05\f\x05\x0E\x05*\v\x05\x03\x06\x03\x06\x03\x06\x02\x02\x03\b\x07\x02" +
+		"\x02\x04\x02\x06\x02\b\x02\n\x02\x02\x03\x05\x02\x03\x04\b\b\v\f\x02." +
+		"\x02\f\x03\x02\x02\x02\x04\x10\x03\x02\x02\x02\x06\x14\x03\x02\x02\x02" +
+		"\b\x1E\x03\x02\x02\x02\n+\x03\x02\x02\x02\f\r\x05\x04\x03\x02\r\x0E\x07" +
+		"\x02\x02\x03\x0E\x03\x03\x02\x02\x02\x0F\x11\x05\x06\x04\x02\x10\x0F\x03" +
+		"\x02\x02\x02\x11\x12\x03\x02\x02\x02\x12\x10\x03\x02\x02\x02\x12\x13\x03" +
+		"\x02\x02\x02\x13\x05\x03\x02\x02\x02\x14\x15\x07\t\x02\x02\x15\x16\x05" +
+		"\b\x05\x02\x16\x17\x07\n\x02\x02\x17\x07\x03\x02\x02\x02\x18\x19\b\x05" +
+		"\x01\x02\x19\x1F\x05\x06\x04\x02\x1A\x1F\x07\x05\x02\x02\x1B\x1C\x07\x07" +
+		"\x02\x02\x1C\x1F\x07\r\x02\x02\x1D\x1F\x07\x07\x02\x02\x1E\x18\x03\x02" +
+		"\x02\x02\x1E\x1A\x03\x02\x02\x02\x1E\x1B\x03\x02\x02\x02\x1E\x1D\x03\x02" +
+		"\x02\x02\x1F(\x03\x02\x02\x02 !\f\x07\x02\x02!\"\x05\b\x05\x02\"#\x05" +
+		"\n\x06\x02#\'\x03\x02\x02\x02$%\f\x06\x02\x02%\'\x07\x05\x02\x02& \x03" +
+		"\x02\x02\x02&$\x03\x02\x02\x02\'*\x03\x02\x02\x02(&\x03\x02\x02\x02()" +
+		"\x03\x02\x02\x02)\t\x03\x02\x02\x02*(\x03\x02\x02\x02+,\t\x02\x02\x02" +
+		",\v\x03\x02\x02\x02\x06\x12\x1E&(";
 	public static __ATN: ATN;
 	public static get _ATN(): ATN {
 		if (!CalculadoraANTLRParser.__ATN) {
@@ -380,32 +381,32 @@ export class CalculadoraANTLRParser extends Parser {
 
 }
 
-export class ArquivoContext extends ParserRuleContext {
-	public expressoes(): ExpressoesContext {
-		return this.getRuleContext(0, ExpressoesContext);
+export class FileContext extends ParserRuleContext {
+	public equations(): EquationsContext {
+		return this.getRuleContext(0, EquationsContext);
 	}
 	public EOF(): TerminalNode { return this.getToken(CalculadoraANTLRParser.EOF, 0); }
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return CalculadoraANTLRParser.RULE_arquivo; }
+	public get ruleIndex(): number { return CalculadoraANTLRParser.RULE_file; }
 	// @Override
 	public enterRule(listener: CalculadoraANTLRListener): void {
-		if (listener.enterArquivo) {
-			listener.enterArquivo(this);
+		if (listener.enterFile) {
+			listener.enterFile(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: CalculadoraANTLRListener): void {
-		if (listener.exitArquivo) {
-			listener.exitArquivo(this);
+		if (listener.exitFile) {
+			listener.exitFile(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: CalculadoraANTLRVisitor<Result>): Result {
-		if (visitor.visitArquivo) {
-			return visitor.visitArquivo(this);
+		if (visitor.visitFile) {
+			return visitor.visitFile(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -413,37 +414,37 @@ export class ArquivoContext extends ParserRuleContext {
 }
 
 
-export class ExpressoesContext extends ParserRuleContext {
-	public expressao(): ExpressaoContext[];
-	public expressao(i: number): ExpressaoContext;
-	public expressao(i?: number): ExpressaoContext | ExpressaoContext[] {
+export class EquationsContext extends ParserRuleContext {
+	public equation(): EquationContext[];
+	public equation(i: number): EquationContext;
+	public equation(i?: number): EquationContext | EquationContext[] {
 		if (i === undefined) {
-			return this.getRuleContexts(ExpressaoContext);
+			return this.getRuleContexts(EquationContext);
 		} else {
-			return this.getRuleContext(i, ExpressaoContext);
+			return this.getRuleContext(i, EquationContext);
 		}
 	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return CalculadoraANTLRParser.RULE_expressoes; }
+	public get ruleIndex(): number { return CalculadoraANTLRParser.RULE_equations; }
 	// @Override
 	public enterRule(listener: CalculadoraANTLRListener): void {
-		if (listener.enterExpressoes) {
-			listener.enterExpressoes(this);
+		if (listener.enterEquations) {
+			listener.enterEquations(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: CalculadoraANTLRListener): void {
-		if (listener.exitExpressoes) {
-			listener.exitExpressoes(this);
+		if (listener.exitEquations) {
+			listener.exitEquations(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: CalculadoraANTLRVisitor<Result>): Result {
-		if (visitor.visitExpressoes) {
-			return visitor.visitExpressoes(this);
+		if (visitor.visitEquations) {
+			return visitor.visitEquations(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -451,46 +452,80 @@ export class ExpressoesContext extends ParserRuleContext {
 }
 
 
-export class ExpressaoContext extends ParserRuleContext {
-	public expressao1(): Expressao1Context | undefined {
-		return this.tryGetRuleContext(0, Expressao1Context);
+export class EquationContext extends ParserRuleContext {
+	public LEFTPAREN(): TerminalNode { return this.getToken(CalculadoraANTLRParser.LEFTPAREN, 0); }
+	public expression(): ExpressionContext {
+		return this.getRuleContext(0, ExpressionContext);
 	}
-	public expressao(): ExpressaoContext[];
-	public expressao(i: number): ExpressaoContext;
-	public expressao(i?: number): ExpressaoContext | ExpressaoContext[] {
-		if (i === undefined) {
-			return this.getRuleContexts(ExpressaoContext);
-		} else {
-			return this.getRuleContext(i, ExpressaoContext);
+	public RIGHTPAREN(): TerminalNode { return this.getToken(CalculadoraANTLRParser.RIGHTPAREN, 0); }
+	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+		super(parent, invokingState);
+	}
+	// @Override
+	public get ruleIndex(): number { return CalculadoraANTLRParser.RULE_equation; }
+	// @Override
+	public enterRule(listener: CalculadoraANTLRListener): void {
+		if (listener.enterEquation) {
+			listener.enterEquation(this);
 		}
 	}
-	public operacao(): OperacaoContext | undefined {
-		return this.tryGetRuleContext(0, OperacaoContext);
+	// @Override
+	public exitRule(listener: CalculadoraANTLRListener): void {
+		if (listener.exitEquation) {
+			listener.exitEquation(this);
+		}
 	}
-	public MEMORIA(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.MEMORIA, 0); }
-	public NUMERO(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.NUMERO, 0); }
+	// @Override
+	public accept<Result>(visitor: CalculadoraANTLRVisitor<Result>): Result {
+		if (visitor.visitEquation) {
+			return visitor.visitEquation(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+
+
+export class ExpressionContext extends ParserRuleContext {
+	public equation(): EquationContext | undefined {
+		return this.tryGetRuleContext(0, EquationContext);
+	}
+	public expression(): ExpressionContext[];
+	public expression(i: number): ExpressionContext;
+	public expression(i?: number): ExpressionContext | ExpressionContext[] {
+		if (i === undefined) {
+			return this.getRuleContexts(ExpressionContext);
+		} else {
+			return this.getRuleContext(i, ExpressionContext);
+		}
+	}
+	public operation(): OperationContext | undefined {
+		return this.tryGetRuleContext(0, OperationContext);
+	}
+	public MEM(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.MEM, 0); }
+	public NUMBER(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.NUMBER, 0); }
 	public RES(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.RES, 0); }
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return CalculadoraANTLRParser.RULE_expressao; }
+	public get ruleIndex(): number { return CalculadoraANTLRParser.RULE_expression; }
 	// @Override
 	public enterRule(listener: CalculadoraANTLRListener): void {
-		if (listener.enterExpressao) {
-			listener.enterExpressao(this);
+		if (listener.enterExpression) {
+			listener.enterExpression(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: CalculadoraANTLRListener): void {
-		if (listener.exitExpressao) {
-			listener.exitExpressao(this);
+		if (listener.exitExpression) {
+			listener.exitExpression(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: CalculadoraANTLRVisitor<Result>): Result {
-		if (visitor.visitExpressao) {
-			return visitor.visitExpressao(this);
+		if (visitor.visitExpression) {
+			return visitor.visitExpression(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -498,67 +533,33 @@ export class ExpressaoContext extends ParserRuleContext {
 }
 
 
-export class Expressao1Context extends ParserRuleContext {
-	public ABRE(): TerminalNode { return this.getToken(CalculadoraANTLRParser.ABRE, 0); }
-	public expressao(): ExpressaoContext {
-		return this.getRuleContext(0, ExpressaoContext);
-	}
-	public FECHA(): TerminalNode { return this.getToken(CalculadoraANTLRParser.FECHA, 0); }
+export class OperationContext extends ParserRuleContext {
+	public DIV(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.DIV, 0); }
+	public MULT(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.MULT, 0); }
+	public POW(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.POW, 0); }
+	public PLUS(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.PLUS, 0); }
+	public MINUS(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.MINUS, 0); }
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return CalculadoraANTLRParser.RULE_expressao1; }
+	public get ruleIndex(): number { return CalculadoraANTLRParser.RULE_operation; }
 	// @Override
 	public enterRule(listener: CalculadoraANTLRListener): void {
-		if (listener.enterExpressao1) {
-			listener.enterExpressao1(this);
+		if (listener.enterOperation) {
+			listener.enterOperation(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: CalculadoraANTLRListener): void {
-		if (listener.exitExpressao1) {
-			listener.exitExpressao1(this);
+		if (listener.exitOperation) {
+			listener.exitOperation(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: CalculadoraANTLRVisitor<Result>): Result {
-		if (visitor.visitExpressao1) {
-			return visitor.visitExpressao1(this);
-		} else {
-			return visitor.visitChildren(this);
-		}
-	}
-}
-
-
-export class OperacaoContext extends ParserRuleContext {
-	public DIVIDIR(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.DIVIDIR, 0); }
-	public POTENCIA(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.POTENCIA, 0); }
-	public SOMAR(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.SOMAR, 0); }
-	public MULTIPLICAR(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.MULTIPLICAR, 0); }
-	public SUBTRAIR(): TerminalNode | undefined { return this.tryGetToken(CalculadoraANTLRParser.SUBTRAIR, 0); }
-	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
-		super(parent, invokingState);
-	}
-	// @Override
-	public get ruleIndex(): number { return CalculadoraANTLRParser.RULE_operacao; }
-	// @Override
-	public enterRule(listener: CalculadoraANTLRListener): void {
-		if (listener.enterOperacao) {
-			listener.enterOperacao(this);
-		}
-	}
-	// @Override
-	public exitRule(listener: CalculadoraANTLRListener): void {
-		if (listener.exitOperacao) {
-			listener.exitOperacao(this);
-		}
-	}
-	// @Override
-	public accept<Result>(visitor: CalculadoraANTLRVisitor<Result>): Result {
-		if (visitor.visitOperacao) {
-			return visitor.visitOperacao(this);
+		if (visitor.visitOperation) {
+			return visitor.visitOperation(this);
 		} else {
 			return visitor.visitChildren(this);
 		}

@@ -1,17 +1,19 @@
 {
   "name": "calculadora-antlr",
+  "version": "1.0.0",
   "main": "main.ts",
+  "module": "node",
   "dependencies": {
     "antlr4ts": "^0.5.0-alpha.4",
-    "antlr4ts-cli": "^0.5.0-alpha.4",
     "fs": "^0.0.1-security",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "antlr4ts-cli": "^0.5.0-alpha.4"
   },
   "scripts": {
     "antlr4ts": "antlr4ts -visitor -o ./antlrFiles CalculadoraANTLR.g4",
-    "build": "tsc -p ./tsconfig.json && node build/main.ts",
-    "start": "npm run antlr4ts && npm run build && node build/main.ts",
-    "evaluate": "npm run build && node build/main.ts"
+    "build": "tsc -p ./tsconfig.json && node main.js",
+    "start": "npm run antlr4ts && npm run build && node main.js",
+    "evaluate": "npm run build && node main.js"
   },
   "devDependencies": {
     "@types/node": "^20.12.2"

@@ -3,11 +3,11 @@
 
 import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
 
-import { ArquivoContext } from "./CalculadoraANTLRParser";
-import { ExpressoesContext } from "./CalculadoraANTLRParser";
-import { ExpressaoContext } from "./CalculadoraANTLRParser";
-import { Expressao1Context } from "./CalculadoraANTLRParser";
-import { OperacaoContext } from "./CalculadoraANTLRParser";
+import { FileContext } from "./CalculadoraANTLRParser";
+import { EquationsContext } from "./CalculadoraANTLRParser";
+import { EquationContext } from "./CalculadoraANTLRParser";
+import { ExpressionContext } from "./CalculadoraANTLRParser";
+import { OperationContext } from "./CalculadoraANTLRParser";
 
 
 /**
@@ -16,58 +16,58 @@ import { OperacaoContext } from "./CalculadoraANTLRParser";
  */
 export interface CalculadoraANTLRListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by `CalculadoraANTLRParser.arquivo`.
+	 * Enter a parse tree produced by `CalculadoraANTLRParser.file`.
 	 * @param ctx the parse tree
 	 */
-	enterArquivo?: (ctx: ArquivoContext) => void;
+	enterFile?: (ctx: FileContext) => void;
 	/**
-	 * Exit a parse tree produced by `CalculadoraANTLRParser.arquivo`.
+	 * Exit a parse tree produced by `CalculadoraANTLRParser.file`.
 	 * @param ctx the parse tree
 	 */
-	exitArquivo?: (ctx: ArquivoContext) => void;
+	exitFile?: (ctx: FileContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `CalculadoraANTLRParser.expressoes`.
+	 * Enter a parse tree produced by `CalculadoraANTLRParser.equations`.
 	 * @param ctx the parse tree
 	 */
-	enterExpressoes?: (ctx: ExpressoesContext) => void;
+	enterEquations?: (ctx: EquationsContext) => void;
 	/**
-	 * Exit a parse tree produced by `CalculadoraANTLRParser.expressoes`.
+	 * Exit a parse tree produced by `CalculadoraANTLRParser.equations`.
 	 * @param ctx the parse tree
 	 */
-	exitExpressoes?: (ctx: ExpressoesContext) => void;
+	exitEquations?: (ctx: EquationsContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `CalculadoraANTLRParser.expressao`.
+	 * Enter a parse tree produced by `CalculadoraANTLRParser.equation`.
 	 * @param ctx the parse tree
 	 */
-	enterExpressao?: (ctx: ExpressaoContext) => void;
+	enterEquation?: (ctx: EquationContext) => void;
 	/**
-	 * Exit a parse tree produced by `CalculadoraANTLRParser.expressao`.
+	 * Exit a parse tree produced by `CalculadoraANTLRParser.equation`.
 	 * @param ctx the parse tree
 	 */
-	exitExpressao?: (ctx: ExpressaoContext) => void;
+	exitEquation?: (ctx: EquationContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `CalculadoraANTLRParser.expressao1`.
+	 * Enter a parse tree produced by `CalculadoraANTLRParser.expression`.
 	 * @param ctx the parse tree
 	 */
-	enterExpressao1?: (ctx: Expressao1Context) => void;
+	enterExpression?: (ctx: ExpressionContext) => void;
 	/**
-	 * Exit a parse tree produced by `CalculadoraANTLRParser.expressao1`.
+	 * Exit a parse tree produced by `CalculadoraANTLRParser.expression`.
 	 * @param ctx the parse tree
 	 */
-	exitExpressao1?: (ctx: Expressao1Context) => void;
+	exitExpression?: (ctx: ExpressionContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `CalculadoraANTLRParser.operacao`.
+	 * Enter a parse tree produced by `CalculadoraANTLRParser.operation`.
 	 * @param ctx the parse tree
 	 */
-	enterOperacao?: (ctx: OperacaoContext) => void;
+	enterOperation?: (ctx: OperationContext) => void;
 	/**
-	 * Exit a parse tree produced by `CalculadoraANTLRParser.operacao`.
+	 * Exit a parse tree produced by `CalculadoraANTLRParser.operation`.
 	 * @param ctx the parse tree
 	 */
-	exitOperacao?: (ctx: OperacaoContext) => void;
+	exitOperation?: (ctx: OperationContext) => void;
 }
 

@@ -3,11 +3,11 @@
 
 import { ParseTreeVisitor } from "antlr4ts/tree/ParseTreeVisitor";
 
-import { ArquivoContext } from "./CalculadoraANTLRParser";
-import { ExpressoesContext } from "./CalculadoraANTLRParser";
-import { ExpressaoContext } from "./CalculadoraANTLRParser";
-import { Expressao1Context } from "./CalculadoraANTLRParser";
-import { OperacaoContext } from "./CalculadoraANTLRParser";
+import { FileContext } from "./CalculadoraANTLRParser";
+import { EquationsContext } from "./CalculadoraANTLRParser";
+import { EquationContext } from "./CalculadoraANTLRParser";
+import { ExpressionContext } from "./CalculadoraANTLRParser";
+import { OperationContext } from "./CalculadoraANTLRParser";
 
 
 /**
@@ -19,38 +19,38 @@ import { OperacaoContext } from "./CalculadoraANTLRParser";
  */
 export interface CalculadoraANTLRVisitor<Result> extends ParseTreeVisitor<Result> {
 	/**
-	 * Visit a parse tree produced by `CalculadoraANTLRParser.arquivo`.
+	 * Visit a parse tree produced by `CalculadoraANTLRParser.file`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitArquivo?: (ctx: ArquivoContext) => Result;
+	visitFile?: (ctx: FileContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `CalculadoraANTLRParser.expressoes`.
+	 * Visit a parse tree produced by `CalculadoraANTLRParser.equations`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitExpressoes?: (ctx: ExpressoesContext) => Result;
+	visitEquations?: (ctx: EquationsContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `CalculadoraANTLRParser.expressao`.
+	 * Visit a parse tree produced by `CalculadoraANTLRParser.equation`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitExpressao?: (ctx: ExpressaoContext) => Result;
+	visitEquation?: (ctx: EquationContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `CalculadoraANTLRParser.expressao1`.
+	 * Visit a parse tree produced by `CalculadoraANTLRParser.expression`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitExpressao1?: (ctx: Expressao1Context) => Result;
+	visitExpression?: (ctx: ExpressionContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `CalculadoraANTLRParser.operacao`.
+	 * Visit a parse tree produced by `CalculadoraANTLRParser.operation`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitOperacao?: (ctx: OperacaoContext) => Result;
+	visitOperation?: (ctx: OperationContext) => Result;
 }
 
