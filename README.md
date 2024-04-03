@@ -3,7 +3,11 @@ Work developed for the "Interpreter Construction" (Construção de Interpretador
 
 The purpose of this work is the construction of a lexical analyzer developed in ANTLR4 for processing mathematical expressions.
 
-# Preparing the environment:
+# Reference
+
+[ANTLR](https://www.antlr.org/)
+
+# Preparing the environment
 
 - Provide the txt file with mathematical expressions of your choice
 - Run npm install (to install the project dependencies - antlr4ts ; antlr4ts-cli)
@@ -12,7 +16,7 @@ The purpose of this work is the construction of a lexical analyzer developed in 
 At the end, we have an impression of the expressions with their respective trees and hierarchies, according to the images below.
 
 
-# test 1
+# Test 1
 
 * Tree
 
@@ -22,7 +26,7 @@ At the end, we have an impression of the expressions with their respective trees
   
 ![screenshot](hierarchy1.png)
 
-# test 2
+# Test 2
 
 * Tree 2
   
@@ -32,7 +36,7 @@ At the end, we have an impression of the expressions with their respective trees
 
 ![screenshot](hierarchy2.png)
 
-# test 3
+# Test 3
 
 * Tree 3
 
